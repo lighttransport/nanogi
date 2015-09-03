@@ -17,10 +17,12 @@ RUN git clone --depth=1 --branch v2.5.1 https://github.com/embree/embree.git emb
 RUN mkdir -p embree/build && cd embree/build && cmake -D CMAKE_BUILD_TYPE=Release -D ENABLE_ISPC_SUPPORT=OFF -D RTCORE_TASKING_SYSTEM=INTERNAL -D ENABLE_TUTORIALS=OFF .. && make -j && make install && cp libembree.so /usr/local/lib
 
 # Add a project file to the container
-COPY include /nanogi/
-COPY cmake /nanogi/
-COPY src /nanogi/
+COPY . /nanogi/
+
+# Avois clock skew detected warning
+RUN find /nanogi -print0 | xargs -0 touch
 
 # Build nanogi
 RUN mkdir -p nanogi/build && cd nanogi/build && BOOST_ROOT="" BOOST_INCLUDEDIR="/usr/include" BOOST_LIBRARYDIR="/usr/lib/x86_64-linux-gnu" cmake -DCMAKE_BUILD_TYPE=Release .. && make -j
-RUN ln -s /nanogi/build/bin/nanogi /nanogi
+ENV PATH /nanogi/build/bin:$PATH
+
