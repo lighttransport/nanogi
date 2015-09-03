@@ -1,5 +1,5 @@
 /*
-	nanogi - A small reference GI renderer
+	nanogi - A small, reference GI renderer
 
 	Copyright (c) 2015 Light Transport Entertainment Inc.
 	All rights reserved.
@@ -28,8 +28,8 @@
 */
 
 #pragma once
-#ifndef NANOGI_BPT_H
-#define NANOGI_BPT_H
+#ifndef NANOGI_BDPT_H
+#define NANOGI_BDPT_H
 
 #include <nanogi/rt.hpp>
 
@@ -49,7 +49,7 @@ struct Path
 
 public:
 
-	#pragma region BPT path initialization
+	#pragma region BDPT path initialization
 
 	void SampleSubpath(const Scene& scene, Random& rng, TransportDirection transDir, int maxPathVertices)
 	{
@@ -176,7 +176,7 @@ public:
 
 public:
 
-	#pragma region BPT path evaluation
+	#pragma region BDPT path evaluation
 
 	glm::dvec3 EvaluateContribution(const Scene& scene, int s) const
 	{
@@ -537,4 +537,4 @@ public:
 
 NGI_NAMESPACE_END
 
-#endif // NANOGI_BPT_H
+#endif // NANOGI_BDPT_H

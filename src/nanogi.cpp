@@ -1,5 +1,5 @@
 /*
-	nanogi - A small reference GI renderer
+	nanogi - A small, reference GI renderer
 
 	Copyright (c) 2015 Light Transport Entertainment Inc.
 	All rights reserved.
@@ -32,7 +32,7 @@
 #include <nanogi/macros.hpp>
 #include <nanogi/basic.hpp>
 #include <nanogi/rt.hpp>
-#include <nanogi/bpt.hpp>
+#include <nanogi/bdpt.hpp>
 
 #include <boost/program_options.hpp>
 
@@ -54,7 +54,7 @@ enum class RendererType
 	PTDirect,
 	LT,
 	LTDirect,
-	BPT,
+	BDPT,
 	PTMNEE,
 };
 
@@ -64,7 +64,7 @@ const std::string RendererType_String[] =
 	"ptdirect",
 	"lt",
 	"ltdirect",
-	"bpt",
+	"bdpt",
 	"ptmnee",
 };
 
@@ -93,7 +93,7 @@ struct Renderer
 		struct
 		{
 			std::string SubpathImageDir;
-		} BPTStrategy;
+		} BDPTStrategy;
 	} Params;
 
 public:
@@ -107,9 +107,9 @@ public:
 
 		struct
 		{
-			Path subpathL, subpathE;		// BPT subpaths
-			Path path;						// BPT fullpath
-		} BPT;
+			Path subpathL, subpathE;		// BDPT subpaths
+			Path path;						// BDPT fullpath
+		} BDPT;
 	};
 
 public:
@@ -206,7 +206,7 @@ public:
 				case RendererType::PTDirect:	{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_PTDirect,    this, std::placeholders::_1, std::placeholders::_2)); break; }
 				case RendererType::LT:			{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_LT,          this, std::placeholders::_1, std::placeholders::_2)); break; }
 				case RendererType::LTDirect:	{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_LTDirect,    this, std::placeholders::_1, std::placeholders::_2)); break; }
-				case RendererType::BPT:			{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_BPT,         this, std::placeholders::_1, std::placeholders::_2)); break; }
+				case RendererType::BDPT:			{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_BDPT,         this, std::placeholders::_1, std::placeholders::_2)); break; }
 				case RendererType::PTMNEE:		{ RenderProcess(scene, initRng, film, std::bind(&Renderer::ProcessSample_PTMNEE,      this, std::placeholders::_1, std::placeholders::_2)); break; }
 				default:						{ break; }
 			};
@@ -1130,12 +1130,12 @@ private:
 		}
 	}
 
-	void ProcessSample_BPT(const Scene& scene, Context& ctx) const
+	void ProcessSample_BDPT(const Scene& scene, Context& ctx) const
 	{
 		#pragma region Sample subpaths
 
-		ctx.BPT.subpathL.SampleSubpath(scene, ctx.rng, TransportDirection::LE, Params.MaxNumVertices);
-		ctx.BPT.subpathE.SampleSubpath(scene, ctx.rng, TransportDirection::EL, Params.MaxNumVertices);
+		ctx.BDPT.subpathL.SampleSubpath(scene, ctx.rng, TransportDirection::LE, Params.MaxNumVertices);
+		ctx.BDPT.subpathE.SampleSubpath(scene, ctx.rng, TransportDirection::EL, Params.MaxNumVertices);
 
 		#pragma endregion
 
@@ -1143,8 +1143,8 @@ private:
 
 		#pragma region Evaluate path combinations
 
-		const int nL = static_cast<int>(ctx.BPT.subpathL.vertices.size());
-		const int nE = static_cast<int>(ctx.BPT.subpathE.vertices.size());
+		const int nL = static_cast<int>(ctx.BDPT.subpathL.vertices.size());
+		const int nE = static_cast<int>(ctx.BDPT.subpathE.vertices.size());
 		for (int n = 2; n <= nE + nL; n++)
 		{
 			if (Params.MaxNumVertices != -1 && n > Params.MaxNumVertices)
@@ -1161,7 +1161,7 @@ private:
 				#pragma region Connect subpaths & create fullpath
 
 				const int t = n - s;
-				if (!ctx.BPT.path.Connect(scene, s, t, ctx.BPT.subpathL, ctx.BPT.subpathE))
+				if (!ctx.BDPT.path.Connect(scene, s, t, ctx.BDPT.subpathL, ctx.BDPT.subpathE))
 				{
 					continue;
 				}
@@ -1172,7 +1172,7 @@ private:
 
 				#pragma region Evaluate contribution
 
-				const auto C = ctx.BPT.path.EvaluateContribution(scene, s) / ctx.BPT.path.SelectionProb(s);
+				const auto C = ctx.BDPT.path.EvaluateContribution(scene, s) / ctx.BDPT.path.SelectionProb(s);
 				if (C == glm::dvec3())
 				{
 					continue;
@@ -1184,7 +1184,7 @@ private:
 
 				#pragma region Accumulate to film
 
-				ctx.film[PixelIndex(ctx.BPT.path.RasterPosition(), Params.Width, Params.Height)] += C;
+				ctx.film[PixelIndex(ctx.BDPT.path.RasterPosition(), Params.Width, Params.Height)] += C;
 
 				#pragma endregion
 			}

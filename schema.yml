@@ -1,0 +1,335 @@
+#
+#  nanogi - A small reference GI renderer
+# 
+#  Copyright (c) 2015 Light Transport Entertainment Inc.
+#  All rights reserved.
+# 
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions are met:
+#  * Redistributions of source code must retain the above copyright
+#  notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#  notice, this list of conditions and the following disclaimer in the
+#  documentation and/or other materials provided with the distribution.
+#  * Neither the name of the <organization> nor the
+#  names of its contributors may be used to endorse or promote products
+#  derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+#  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+#  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+#  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+#  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+#  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Use pykwalify to validate scene configuration files
+# https://github.com/Grokzen/pykwalify
+
+type: map
+mapping:
+  # Version of the scene file
+  version:
+    type: int
+    required: True
+    range:
+      min: 3
+      max: 5
+
+  # Scene primitives
+  scene:
+    type: map
+    required: True
+    mapping:
+      primitives:
+        type: seq
+        required: True
+        sequence:
+          - type: map
+            mapping:
+              # Primitive type
+              type:
+                type: seq
+                required: True
+                # Primitive type must have at least one element
+                # not more than 3 elements
+                range:
+                  min: 1
+                  max: 2
+                sequence:
+                  - type: str
+                    enum: [L, E, D, S, G]
+
+              # Mesh
+              mesh:
+                type: map
+                mapping:
+                  # Path to the mesh file
+                  path:
+                    type: str
+                    required: True
+
+                  # Postprocesses
+                  postprocess:
+                    type: map
+                    mapping:
+                      generate_normals:
+                        type: bool
+                      generate_smooth_normals:
+                        type: bool
+
+              # Parameters
+              params:
+                type: map
+                required: True
+                mapping:
+                  # Light source
+                  L:
+                    type: map
+                    mapping:
+                      # Sub-type
+                      type:
+                        type: str
+                        required: True
+
+                      # Area light
+                      area:
+                        type: map
+                        mapping:
+                          Le:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                      # Point light
+                      point:
+                        type: map
+                        mapping:
+                          Le:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                          position:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                      # Directional light
+                      directional:
+                        type: map
+                        mapping:
+                          Le:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                          direction:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                  # Sensor
+                  E:
+                    type: map
+                    mapping:
+                      # Sub-type
+                      type:
+                        type: str
+                        required: True
+
+                      # Area sensor
+                      area:
+                        type: map
+                        mapping:
+                          We:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                      # Pinhole camera
+                      pinhole:
+                        type: map
+                        mapping:
+                          We:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                          view:
+                            type: map
+                            required: True
+                            mapping:
+                              eye:
+                                type: seq
+                                required: True
+                                range:
+                                  min: 3
+                                  max: 3
+                                sequence:
+                                  - type: number
+
+                              center:
+                                type: seq
+                                required: True
+                                range:
+                                  min: 3
+                                  max: 3
+                                sequence:
+                                  - type: number
+
+                              up:
+                                type: seq
+                                required: True
+                                range:
+                                  min: 3
+                                  max: 3
+                                sequence:
+                                  - type: number
+
+                          perspective:
+                            type: map
+                            required: True
+                            mapping:
+                              fov:
+                                type: number
+
+                  # Diffuse material
+                  D:
+                    type: map
+                    mapping:
+                      R:
+                        type: seq
+                        required: True
+                        range:
+                          min: 3
+                          max: 3
+                        sequence:
+                          - type: number
+
+                  # Specular material
+                  S:
+                    type: map
+                    mapping:
+                      # Sub-type
+                      type:
+                        type: str
+                        required: True
+
+                      # Perfect reflection
+                      reflection:
+                        type: map
+                        mapping:
+                          R:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                      # Perfect refraction
+                      refraction:
+                        type: map
+                        mapping:
+                          R:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                          eta1:
+                            type: number
+
+                          eta2:
+                            type: number
+
+                      # Flesnel reflection and refraction
+                      fresnel:
+                        type: map
+                        mapping:
+                          R:
+                            type: seq
+                            required: True
+                            range:
+                              min: 3
+                              max: 3
+                            sequence:
+                              - type: number
+
+                          eta1:
+                            type: number
+
+                          eta2:
+                            type: number
+
+
+                  # Glossy material
+                  G:
+                    type: map
+                    mapping:
+                      R:
+                        type: seq
+                        required: True
+                        range:
+                          min: 3
+                          max: 3
+                        sequence:
+                          - type: number
+
+                      Eta:
+                        type: seq
+                        required: True
+                        range:
+                          min: 3
+                          max: 3
+                        sequence:
+                          - type: number
+
+                      K:
+                        type: seq
+                        required: True
+                        range:
+                          min: 3
+                          max: 3
+                        sequence:
+                          - type: number
+
+                      Roughness:
+                        type: number

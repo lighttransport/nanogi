@@ -1,5 +1,5 @@
 /*
-	nanogi - A small reference GI renderer
+	nanogi - A small, reference GI renderer
 
 	Copyright (c) 2015 Light Transport Entertainment Inc.
 	All rights reserved.
