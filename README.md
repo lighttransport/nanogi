@@ -14,6 +14,8 @@ Introduction
 Building
 --------------------
 
+You need 8 GB or more memory for building the code. 4 GB or less memory will cause the out of memory error when compiling `Assimp`.
+
 ### Dependencies
 
 - [CMake](http://www.cmake.org/) 3.0 and higher
