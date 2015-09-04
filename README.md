@@ -9,13 +9,14 @@ A small, reference GI renderer.
 Introduction
 --------------------
 
-**nanogi** is a small global illumination (GI) renderer intended to be utilizes as a reference renderer. The application is written in C++, focusing on the *correctness* of the implementation rather than *performance*, e.g., we removed caches which is often introduced as an optimization. In the overall of the implementation, we tried to compute the equation in the original mathematical formulation *as it is*, as much as possible.
+**nanogi** is a small global illumination (GI) renderer intended to be utilized as a reference renderer. The application is written in C++, focusing on the *correctness* of the implementation rather than *performance*, e.g., we removed caches which is often introduced as an optimization. In the overall of the implementation, we tried to compute the equation in the original mathematical formulation *as it is*, as much as possible.
 
 Building
 --------------------
 
 ### Dependencies
 
+- [CMake](http://www.cmake.org/) 3.0 and higher
 - [Boost](http://www.boost.org/) 1.56.0 and higher
 - [Assimp](http://assimp.sourceforge.net/) 3.1.1  and higher
 - [FreeImage](http://freeimage.sourceforge.net/) 3.15.4 and higher 
