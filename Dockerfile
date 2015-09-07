@@ -10,11 +10,11 @@ RUN apt-get install -qq -y python cmake build-essential libfreeimage-dev libboos
 
 # Install assimp
 RUN git clone --depth=1 --branch v3.1.1 https://github.com/assimp/assimp.git assimp
-RUN mkdir -p assimp/build && cd assimp/build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j && make install
+RUN mkdir -p assimp/build && cd assimp/build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j 1 && make install
 
 # Install embree
 RUN git clone --depth=1 --branch v2.5.1 https://github.com/embree/embree.git embree
-RUN mkdir -p embree/build && cd embree/build && cmake -D CMAKE_BUILD_TYPE=Release -D ENABLE_ISPC_SUPPORT=OFF -D RTCORE_TASKING_SYSTEM=INTERNAL -D ENABLE_TUTORIALS=OFF .. && make -j && make install && cp libembree.so /usr/local/lib
+RUN mkdir -p embree/build && cd embree/build && cmake -D CMAKE_BUILD_TYPE=Release -D ENABLE_ISPC_SUPPORT=OFF -D RTCORE_TASKING_SYSTEM=INTERNAL -D ENABLE_TUTORIALS=OFF .. && make -j 1 && make install && cp libembree.so /usr/local/lib
 
 # Add a project file to the container
 COPY . /nanogi/
