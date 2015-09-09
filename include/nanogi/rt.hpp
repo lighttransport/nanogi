@@ -436,13 +436,13 @@ struct Primitive
 			} Area;
 		} E;
 
-		struct
+		struct D_
 		{
 			glm::dvec3 R;
 			const Texture* TexR = nullptr;
 		} D;
 
-		struct
+		struct G_
 		{
 			glm::dvec3 R;
 			const Texture* TexR = nullptr;
