@@ -1,0 +1,8 @@
+sudo: requried
+
+services:
+  - docker
+
+script:
+  - docker build -t nanogi .
+  - docker run nanogi
