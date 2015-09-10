@@ -6,6 +6,8 @@ A small, reference GI renderer.
 
 ![](images/sibenik.png)
 
+[![Build Status](https://travis-ci.org/lighttransport/nanogi.svg?branch=master)](https://travis-ci.org/lighttransport/nanogi)
+
 Introduction
 --------------------
 
