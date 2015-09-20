@@ -253,6 +253,7 @@ add_project(
 	NAME "nanogi"
 	SOURCE_FILES
 		"src/nanogi.cpp"
+		"src/tinyexr.cc"
 		"${_INCLUDE_DIR}/macros.hpp"
 		"${_INCLUDE_DIR}/basic.hpp"
 		"${_INCLUDE_DIR}/rt.hpp"

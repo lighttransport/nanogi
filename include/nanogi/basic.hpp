@@ -70,6 +70,8 @@
 #include <FreeImage.h>
 #include <tbb/tbb.h>
 
+#include <nanogi/tinyexr.h>
+
 NGI_NAMESPACE_BEGIN
 
 #pragma region Constants
@@ -554,6 +556,61 @@ namespace
 
 				NGI_LOG_INFO("Successfully saved to " + path);
 				FreeImage_Unload(fibitmap);
+
+				#pragma endregion
+			}
+			else if (fsPath.extension() == ".exr")
+			{
+				#pragma region EXR
+
+				EXRImage image;
+				InitEXRImage(&image);
+
+				image.num_channels = 3;
+
+				const char* channel_names[] = {"B", "G", "R"}; // "B", "G", "R", "A" for RGBA image
+
+				std::vector<float> images[3];
+				images[0].resize(width * height);
+				images[1].resize(width * height);
+				images[2].resize(width * height);
+
+				// Flip y
+				for (int y = 0; y < height; y++) {
+					for (int x = 0; x < width; x++) {
+						images[0][(height-y-1)*width+x] = (float)film[y*width+x].r;
+						images[1][(height-y-1)*width+x] = (float)film[y*width+x].g;
+						images[2][(height-y-1)*width+x] = (float)film[y*width+x].b;
+					}
+				}
+
+				float* image_ptr[3];
+				image_ptr[0] = &(images[2].at(0)); // B
+				image_ptr[1] = &(images[1].at(0)); // G
+				image_ptr[2] = &(images[0].at(0)); // R
+
+				image.channel_names = channel_names;
+				image.images = (unsigned char**)image_ptr;
+				image.width = width;
+				image.height = height;
+
+				image.pixel_types = (int *)malloc(sizeof(int) * image.num_channels);
+				image.requested_pixel_types = (int *)malloc(sizeof(int) * image.num_channels);
+				for (int i = 0; i < image.num_channels; i++) {
+					image.pixel_types[i] = TINYEXR_PIXELTYPE_FLOAT; // pixel type of input image
+					image.requested_pixel_types[i] = TINYEXR_PIXELTYPE_FLOAT; // pixel type of output image to be stored in .EXR
+				}
+
+				const char* err;
+				int ret = SaveMultiChannelEXRToFile(&image, path.c_str(), &err);
+				if (ret != 0) {
+					NGI_LOG_ERROR("Failed to save image : " + path);
+					return false;
+				}
+
+				NGI_LOG_INFO("Successfully saved to " + path);
+				free(image.pixel_types);
+				free(image.requested_pixel_types);
 
 				#pragma endregion
 			}
