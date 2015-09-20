@@ -31,26 +31,30 @@ Building
 
 ### Docker
 
-> $ cd nanogi  
-> $ sudo docker build -t nanogi .  
-> $ sudo docker run nanogi
+    $ cd nanogi  
+    $ sudo docker build -t nanogi .  
+    $ sudo docker run nanogi
 
 #### Setup for runC exection
 
-> # create stripped docker image from `nanogi` 
-> $ cd nanogi/utils
-> $ strip-nanogi-docker-image.sh
-> $ export-nanogi-dist.sh
-> # nanogi-dist.tar.bz2 will be generated
+    $ cd nanogi/utils
+
+    # create stripped docker image from `nanogi` 
+    $ strip-nanogi-docker-image.sh
+    $ export-nanogi-dist.sh
+    # nanogi-dist.tar.bz2 will be generated
 
 #### Execute nanogi with runC 
 
-> $ cd nanogi/utils/runc
-> # place scene file into `data/` directory.
-> # edit nanogi command in `input.config.json`
-> # generate runC config files.
-> $ sh setup.sh
-> $ sudo runc start
+    $ cd nanogi/utils/runc
+
+    # place scene file into `data/` directory.
+    # edit nanogi command in `input.config.json`
+    # then generate runC config files.
+    $ sh setup.sh
+
+    # run nanogi with runC.
+    $ sudo runc start
 
 
 ### Windows
