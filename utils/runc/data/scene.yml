@@ -1,0 +1,68 @@
+version: 5
+scene:
+  primitives:
+    - type: [L, D]
+      mesh:
+        path: 'Plane.001.obj'
+      params:
+        L:
+          type: area
+          area:
+            Le: [10, 10, 10]
+        D:
+          R: [0, 0, 0]
+
+    - type: [G]
+      mesh:
+        path: 'Icosphere.001.obj'
+      params:
+        G:
+          R: [1, 0.64705882352, 0.60784313725]
+          Eta: [0.140000, 0.129000, 0.158500]
+          K: [4.586250, 3.348125, 2.329375]
+          Roughness: 0.1
+
+    - type: [D]
+      mesh:
+        path: 'Icosphere.obj'
+      params:
+        D:
+          R: [1, 0.78431372549, 0.47058823529]
+
+    - type: [S]
+      mesh:
+        path: 'Icosphere.002.obj'
+      params:
+        S:
+          type: fresnel
+          fresnel:
+            R: [0.60784313725, 0.80392156862, 1]
+            eta1: 1
+            eta2: 2
+
+    - type: [D]
+      mesh:
+        path: 'Plane.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [D]
+      mesh:
+        path: 'Plane.002.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [E]
+      params:
+        E:
+          type: pinhole
+          pinhole:
+            We: [1, 1, 1]
+            view:
+              eye:  [ 0, 5, 10 ]
+              center: [ 0, 1, 0 ]
+              up: [ 0, 1, 0 ]
+            perspective:
+              fov: 30
