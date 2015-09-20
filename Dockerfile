@@ -25,4 +25,4 @@ RUN find /nanogi -print0 | xargs -0 touch
 # Build nanogi
 RUN mkdir -p nanogi/build && cd nanogi/build && BOOST_ROOT="" BOOST_INCLUDEDIR="/usr/include" BOOST_LIBRARYDIR="/usr/lib/x86_64-linux-gnu" cmake -DCMAKE_BUILD_TYPE=Release .. && make -j
 ENV PATH /nanogi/build/bin:$PATH
-ENTRYPOINT ["nanogi"]
+#ENTRYPOINT ["nanogi"]

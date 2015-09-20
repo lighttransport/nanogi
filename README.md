@@ -33,7 +33,7 @@ Building
 
     $ cd nanogi  
     $ sudo docker build -t nanogi .  
-    $ sudo docker run nanogi
+    $ sudo docker run nanogi /nanogi/build/bin/nanogi
 
 #### Setup for runC exection
 
