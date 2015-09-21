@@ -11,6 +11,11 @@ export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 mkdir -p $GOPATH
 
+# node.js
+wget -qO- https://nodejs.org/dist/latest/node-v4.1.0-linux-x64.tar.gz | tar -C /usr/local -xzf -
+ln -s /usr/local/node-v4.1.0-linux-x64/bin/npm /usr/local/bin/npm
+ln -s /usr/local/node-v4.1.0-linux-x64/bin/node /usr/local/bin/node
+
 wget -qO- https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz | tar -C /usr/local -xzf -
 
 # Build runC

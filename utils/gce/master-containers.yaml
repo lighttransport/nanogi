@@ -1,0 +1,16 @@
+version: v1
+kind: Pod
+metadata:
+  name: master
+spec:
+  containers:
+    - name: redis
+      image: redis
+      imagePullPolicy: Always
+      ports:
+        - name: redis
+          containerPort: 6379
+          hostPort: 6379
+          protocol: TCP
+  restartPolicy: Always
+  dnsPolicy: Default
