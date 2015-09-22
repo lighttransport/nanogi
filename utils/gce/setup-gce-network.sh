@@ -1,8 +1,6 @@
 #!/bin/bash
 
-PREFIX=nanogi
-GCE_PROJECT=lighttransport.com:computeengine
-GCE_ZONE=asia-east1-a
+. config.sh
 
 gcloud compute networks create ${PREFIX}-cluster \
 	  --range 10.240.0.0/16 \

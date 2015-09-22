@@ -1,11 +1,6 @@
 #!/bin/bash -x
 
-PREFIX=nanogi
-GCE_PROJECT=lighttransport.com:computeengine
-GCE_ZONE=asia-east1-a
-GCE_MACHINE_TYPE=n1-standard-8
-GCE_IMAGE_PROJECT=ubuntu-os-cloud
-GCE_IMAGE=ubuntu-1504-vivid-v20150911
+. config.sh
 
 gcloud compute images delete ${PREFIX}-image \
 	  --quiet \
@@ -22,7 +17,7 @@ gcloud compute instances create ${PREFIX}-builder \
           --image ${GCE_IMAGE} \
           --preemptible
 
-# fixme.
+# fixme...
 sleep 30
 
 gcloud compute copy-files setup-gce-image.sh ${PREFIX}-builder:~/ --zone ${GCE_ZONE} 
