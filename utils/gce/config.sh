@@ -1,5 +1,6 @@
 PREFIX=nanogi
-GCE_MASTER_INSTANCE_NAME="test-vm"
+GCE_MASTER_INSTANCE_NAME="nanogi-master"
+GCE_MASTER_MACHINE_TYPE=n1-standard-8
 GCE_PROJECT=lighttransport.com:computeengine
 GCE_ZONE=asia-east1-a
 GCE_MACHINE_TYPE=n1-standard-8
