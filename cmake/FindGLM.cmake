@@ -36,7 +36,7 @@ else()
 		/usr/local/include
 		/sw/include
 		/opt/local/include
-		${GLEW_ROOT_DIR}/include
+		${GLM_ROOT_DIR}/include
 		DOC "The directory where glm/glm.hpp resides")
 endif()
 
