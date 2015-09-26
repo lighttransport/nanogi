@@ -5,6 +5,7 @@ from bpy_extras.io_utils import ExportHelper
 from .yaml import dump
 
 from .primCamera import *
+from .primMesh import *
 from .primLamp import *
 
 bl_info = {
@@ -28,7 +29,6 @@ class ExportNanogi( bpy.types.Operator, ExportHelper ):
   def export( self, _path ):
     # init
     dirname = os.path.dirname( _path ) + "/"
-    objects = []
     output = {
       "version" : 5,
       "scene" : {
@@ -37,10 +37,27 @@ class ExportNanogi( bpy.types.Operator, ExportHelper ):
     }
 
     # manage selection
-    for obj in bpy.data.objects:
-      if not self.flag_selection or obj.select:
-        objects.append( obj )
+    selected = []
+    for obj in bpy.context.selected_objects:
+      selected.append( obj )
       obj.select = False
+
+    # prepare objects
+    preObjects = []
+    if self.flag_selection:
+      preObjects = selected
+    else:
+      for obj in bpy.data.objects:
+        preObjects.append( obj )
+
+    objects = []
+    for pObj in preObjects:
+      pObj.select = True
+      bpy.ops.object.duplicate()
+      bpy.ops.mesh.separate( type = "MATERIAL" ) # separate meshes by material
+      for obj in bpy.context.selected_objects:
+        objects.append( obj )
+        obj.select = False
 
     # add objects
     for obj in objects:
@@ -51,34 +68,10 @@ class ExportNanogi( bpy.types.Operator, ExportHelper ):
         prim = primCamera( obj )
 
       elif obj.type == "MESH":
-        prim = {
-          "type" : [ "D" ],
-          "mesh" : {
-            "path" : obj.name + ".obj",
-            "postprocess" : {
-              "generate_normals" : True,
-              "generate_smooth_normals" : False
-            }
-          },
-          "params" : {
-            "D" : {
-              "R" : [ 1, 1, 1 ]
-            }
-          }
-        }
-
-        # write obj
-        obj.select = True
-        bpy.ops.export_scene.obj(
-          filepath = dirname + obj.name + ".obj",
-          use_selection = True,
-          axis_forward = "-Z",
-          axis_up = "Y"
-        )
-        obj.select = False
+        prim = primMesh( obj, dirname )
 
       elif obj.type == "LAMP":
-        prim = primLamp( obj )
+        prim = primLamp( obj, dirname )
 
       output[ "scene" ][ "primitives" ].append( prim )
 
@@ -86,6 +79,15 @@ class ExportNanogi( bpy.types.Operator, ExportHelper ):
     fo = open( _path, "w" )
     fo.write( dump( output ) )
     fo.close()
+
+    # delete objects
+    for obj in objects:
+      obj.select = True
+    bpy.ops.object.delete()
+
+    # reselect objects
+    for obj in selected:
+      obj.select = True
 
   def execute( self, context ):
     self.export( self.filepath )
