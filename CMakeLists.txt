@@ -152,7 +152,7 @@ if (MSVC)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /STACK:10000000")
 
 	# Warning level 4, treat warning as errors
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 
 	# Add floating-point flag
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /fp:strict")
