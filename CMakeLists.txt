@@ -265,6 +265,7 @@ if (MSVC)
 		NAME "nanogi-viewer"
 		SOURCE_FILES
 			"src/nanogi-viewer.cpp"
+			"src/tinyexr.cc"
 			"${_INCLUDE_DIR}/macros.hpp"
 			"${_INCLUDE_DIR}/basic.hpp"
 			"${_INCLUDE_DIR}/rt.hpp"
