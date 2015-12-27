@@ -7,6 +7,7 @@ A small, reference GI renderer.
 ![](images/sibenik.png)
 
 [![Build Status](https://travis-ci.org/lighttransport/nanogi.svg?branch=master)](https://travis-ci.org/lighttransport/nanogi)
+[![Build status](https://ci.appveyor.com/api/projects/status/g1cxgfvm6you80yu/branch/master?svg=true)](https://ci.appveyor.com/project/soma-arc/nanogi/branch/master)
 
 Introduction
 --------------------
