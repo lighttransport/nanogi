@@ -1,0 +1,69 @@
+version: 1.0.{build}
+os: Visual Studio 2013
+configuration: Release
+platform: x64
+environment:
+  BOOST_ROOT: C:\Libraries\boost_1_58_0
+  BOOST_INCLUDEDIR: C:\Libraries\boost_1_58_0
+  BOOST_LIBRARYDIR: C:\Libraries\boost_1_58_0\lib64-msvc-12.0
+  QTDIR: C:\Qt\5.5\msvc2013_64
+  TBB_ROOT: C:\TBB\tbb44_20151115oss
+  TBB_ARCH_PLATFORM: intel64
+  TBB_ARCHIVE: c:\TBB.zip
+  INCLUDE: '%INCLUDE%;C:\nanogi-external\include'
+  LIB: '%LIB%;C:\nanogi-external\vc12\lib\x64'
+  PATH: '%PATH%;C:\nanogi-external\vc12\bin\x64'
+  NANOGI_EXTERNAL_ARCHIVE: C:\nanogi-external
+install:
+- cmd: >-
+    if not exist "%NANOGI_EXTERNAL_ARCHIVE%" git clone https://github.com/lighttransport/nanogi-external-win.git c:/nanogi-external
+
+    if not exist "%TBB_ARCHIVE%" curl https://www.threadingbuildingblocks.org/sites/default/files/software_releases/windows/tbb44_20151115oss_win_0.zip > c:\TBB.zip
+
+    7z x c:\TBB.zip -oc:\TBB -y > nul
+cache:
+- C:\TBB.zip
+- C:\nanogi-external
+before_build:
+- cmd: >-
+    mkdir build
+
+    cd build
+
+    cmake -G "Visual Studio 12 2013 Win64" ..\
+build:
+  project: C:\projects\nanogi\build\ALL_BUILD.vcxproj
+  verbosity: minimal
+after_build:
+- cmd: >-
+    mkdir bin\Release\LICENSES
+
+    mkdir bin\Release\LICENSES\Qt
+
+    mkdir bin\Release\platforms
+
+    copy c:\nanogi-external\vc12\bin\x64\*.dll bin\Release
+
+    copy c:\nanogi-external\LICENSES\* bin\Release\LICENSES
+
+    copy c:\TBB\tbb44_20151115oss\bin\intel64\vc12\tbb.dll bin\Release
+
+    copy c:\TBB\tbb44_20151115oss\COPYING bin\Release\LICENSES\LICENSE.tbb.txt
+
+    copy C:\Qt\5.5\msvc2013_64\bin\Qt5Widgets.dll bin\Release
+
+    copy C:\Qt\5.5\msvc2013_64\bin\Qt5Gui.dll bin\Release
+
+    copy C:\Qt\5.5\msvc2013_64\bin\Qt5Core.dll bin\Release
+
+    copy C:\Qt\5.5\msvc2013_64\plugins\platforms\qwindows.dll bin\Release\platforms
+
+    copy C:\Qt\5.5\msvc2013_64\plugins\platforms\qwindowsd.dll bin\Release\platforms
+
+    copy C:\Qt\Licenses\LICENSE bin\Release\LICENSES\LICENSE.Qt.txt
+
+    bin\Release\nanogi.exe
+artifacts:
+- path: build\bin\Release
+  name: '\nanogi-win'
+deploy: off
