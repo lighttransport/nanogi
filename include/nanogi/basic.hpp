@@ -593,6 +593,7 @@ namespace
 				image.images = (unsigned char**)image_ptr;
 				image.width = width;
 				image.height = height;
+				image.compression = TINYEXR_COMPRESSIONTYPE_ZIP;
 
 				image.pixel_types = (int *)malloc(sizeof(int) * image.num_channels);
 				image.requested_pixel_types = (int *)malloc(sizeof(int) * image.num_channels);
