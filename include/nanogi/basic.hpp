@@ -166,6 +166,10 @@ public:
 						consoleWidth = w.ws_col;
 					}
 				}
+				#else 
+				{
+					consoleWidth = DefaultConsoleWidth;
+				}
 				#endif
 				std::cout << std::string(consoleWidth, ' ') << "\r";
 			}

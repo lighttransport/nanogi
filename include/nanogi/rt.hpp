@@ -1788,7 +1788,7 @@ public:
 								std::unique_ptr<Texture> texture(new Texture);
 								if (!texture->Load(texPath))
 								{
-									return false;
+									return nullptr;
 								}
 
 								Textures.push_back(std::move(texture));
