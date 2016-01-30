@@ -1,0 +1,12 @@
+# Blender v2.76 (sub 0) OBJ File: ''
+# www.blender.org
+mtllib cornellbox_floor.mtl
+o cbox_floor
+v 552.799988 0.000000 0.000000
+v 0.000000 0.000000 0.000000
+v 0.000000 -0.000091 559.200012
+v 549.599976 -0.000091 559.200012
+vn 0.000000 1.000000 0.000000
+usemtl None
+s off
+f 1//1 2//1 3//1 4//1

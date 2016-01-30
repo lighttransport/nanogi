@@ -1,0 +1,75 @@
+version: 5
+scene:
+  primitives:
+    - type: [L, D]
+      mesh:
+        path: 'cornelbox_light.obj'
+      params:
+        L:
+          type: area
+          area:
+            Le: [10, 10, 10]
+        D:
+          R: [0, 0, 0]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_back.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_ceiling.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_floor.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_redwall.obj'
+      params:
+        D:
+          R: [1, 0, 0]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_greenwall.obj'
+      params:
+        D:
+          R: [0, 1, 0]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_largebox.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [D]
+      mesh:
+        path: 'cornellbox_smallbox.obj'
+      params:
+        D:
+          R: [1, 1, 1]
+
+    - type: [E]
+      params:
+        E:
+          type: pinhole
+          pinhole:
+            We: [1, 1, 1]
+            view:
+              eye:  [ 278, 273, -800 ]
+              center: [ 278, 273, -799 ]
+              up: [ 0, 1, 0 ]
+            perspective:
+              fov: 39.3077
