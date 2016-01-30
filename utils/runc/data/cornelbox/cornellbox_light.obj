@@ -1,0 +1,12 @@
+# Blender v2.76 (sub 0) OBJ File: ''
+# www.blender.org
+#mtllib cornelbox_light.mtl
+o cbox_luminaire
+v 343.000000 548.749927 227.000092
+v 343.000000 548.749927 332.000092
+v 213.000000 548.749927 332.000092
+v 213.000000 548.749927 227.000092
+vn 0.000000 -1.000000 0.000000
+usemtl None
+s off
+f 1//1 2//1 3//1 4//1

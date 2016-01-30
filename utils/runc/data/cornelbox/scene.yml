@@ -3,7 +3,7 @@ scene:
   primitives:
     - type: [L, D]
       mesh:
-        path: 'cornelbox_light.obj'
+        path: 'cornellbox_light.obj'
       params:
         L:
           type: area
